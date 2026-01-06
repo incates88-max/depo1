@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>İyi Ki Doğdunuz Ezgi Öğretmenim</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: radial-gradient(circle at top, #2b0a3d, #120018);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .page {
+      display: none;
+      text-align: center;
+      max-width: 420px;
+      padding: 30px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 22px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 40px rgba(255,182,255,0.35);
+    }
+    .page.active { display: block; }
+    h1 { color: #ffd6ff; }
+    p { line-height: 1.6; color: #f3e8ff; }
+    .btn {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 12px 22px;
+      border-radius: 30px;
+      background: linear-gradient(45deg, #ff7ad9, #b86bff);
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    video {
+      width: 100%;
+      border-radius: 16px;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Müzik sadece ilk sayfada -->
+  <audio id="bgMusic" loop>
+    <source src="sesli-ders-notları.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Sayfa 1 -->
+  <div class="page active" id="page1">
+    <h1>İyi Ki Doğdunuz 🎂</h1>
+    <p>
+      Ezgi Öğretmenim,<br /><br />
+      Bu küçük sürpriz sizin için.<br />
+      Güzel yaşlara, güzel günlere…<br />
+      Aşağıdaki butona tıklamadan önce sayfanın boş bir yerine tıklayın, LÜTFEN!
+    </p>
+    <div class="btn" onclick="goPage(2)">Videoya Geç 🎥</div>
+  </div>
+
+  <!-- Sayfa 2 -->
+  <div class="page" id="page2">
+    <h1>Size Bir Mesajım Var</h1>
+    <video id="video" controls>
+      <source src="konu-tekrarı.mp4" type="video/mp4">
+    </video>
+  </div>
+  <script>
+    let musicStarted = false;
+
+    // Sayfa ilk dokunuşta müzik başlar
+    document.addEventListener('click', () => {
+      if (!musicStarted) {
+        const music = document.getElementById('bgMusic');
+        music.play().catch(()=>{});
+        musicStarted = true;
+      }
+    }, { once: true });
+
+    function goPage(n) {
+      const music = document.getElementById('bgMusic');
+      const video = document.getElementById('video');
+
+      if (n === 2) {
+        music.pause();
+        video.play().catch(()=>{});
+      }
+
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + n).classList.add('active');
+
+      history.pushState({}, '', n === 1 ? '/' : '/video');
+    }
+  </script>
+
+</body>
+</html>
